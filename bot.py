@@ -1,4 +1,5 @@
 import telebot
+import random
 from bot_logic import gen_pass, gen_emodji, flip_coin 
 from giveer import APItoken
     
@@ -8,7 +9,7 @@ bot = telebot.TeleBot(APItoken)
     
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.reply_to(message, "Привет! Я твой Telegram бот. Напиши команду /hello, /bye, /pass, /emodji или /coin")
+    bot.reply_to(message, "Привет! Я твой Telegram бот. Напиши команду /hello, /bye, /pass, /emodji, /mem или /coin")
     
 @bot.message_handler(commands=['hello'])
 def send_hello(message):
@@ -31,6 +32,11 @@ def send_emodji(message):
 def send_coin(message):
     coin = flip_coin()
     bot.reply_to(message, f"Монетка выпала так: {coin}")
+
+@bot.message_handler(commands=['mem'])
+def send_mem(message):
+    with open('images/mem1.jpg', 'rb') as f:  
+        bot.send_photo(message.chat.id, f) 
 
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
